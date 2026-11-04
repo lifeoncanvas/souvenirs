@@ -1,0 +1,10 @@
+# Security headers for static hosts that read this file (Cloudflare Pages, Netlify).
+# On other hosts, configure the same headers in the server or CDN. The Content-Security-Policy itself
+# is injected into index.html at build time (see vite.config.js).
+/*
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(self "https://www.paypal.com")
