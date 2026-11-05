@@ -8,3 +8,4 @@
     "build": "npm --prefix frontend run build"
   }
 }
+

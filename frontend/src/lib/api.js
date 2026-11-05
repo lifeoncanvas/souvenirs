@@ -47,7 +47,17 @@ export async function api(path, { method = 'GET', body, form, signal } = {}) {
   try { data = text ? JSON.parse(text) : null; } catch { data = null; }
   if (!res.ok) {
     if (res.status === 401 && auth) tokens.setAuth(null);
-    throw new ApiError(data?.message || 'Something went wrong. Please try again.', res.status, data?.fields, data?.code);
+    let msg = data?.message;
+    if (!msg) {
+      if (res.status === 502 || res.status === 503) {
+        msg = 'The backend is currently unreachable (502 Bad Gateway). Please ensure the Spring Boot backend is running.';
+      } else if (res.status === 504) {
+        msg = 'The backend timed out. Please try again in a moment.';
+      } else {
+        msg = 'Something went wrong. Please try again.';
+      }
+    }
+    throw new ApiError(msg, res.status, data?.fields, data?.code);
   }
   return data;
 }
