@@ -5,6 +5,7 @@ import { useApp } from '../context/AppContext';
 import { api } from '../lib/api';
 import ProductCard from '../components/ProductCard';
 import { NewsletterForm } from '../components/Footer';
+import { getCategoryFallback, resolveCategoryImage } from '../lib/images';
 import { Img, Ornament, Reveal, SectionHeading, Seo, Spinner, Stars } from '../components/ui';
 
 export default function Home() {
@@ -82,13 +83,14 @@ function FeaturedCollections() {
         <div className="mt-16 grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-6 md:grid-rows-[repeat(2,minmax(0,300px))] lg:grid-rows-[repeat(2,minmax(0,340px))]">
           {cats.slice(0, 5).map((c, i) => {
             const layout = ['md:col-span-3 md:row-span-2', 'md:col-span-3', 'md:col-span-1 md:col-start-4', 'md:col-span-2', 'md:col-span-6 md:h-[300px]'][i] || '';
+            const fallback = getCategoryFallback(c.slug);
             const imageSrc = c.slug === 'gift-boxes'
               ? 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=2000&q=85'
-              : c.imageUrl;
+              : resolveCategoryImage(c.imageUrl, c.slug);
             return (
               <Reveal key={c.id} delay={i * 90} className={`${layout} ${i === 0 ? 'col-span-2' : ''} ${i === 4 ? 'md:row-start-3' : ''}`}>
                 <Link to={`/shop/${c.slug}`} className={`group relative block overflow-hidden md:h-full ${i === 0 ? 'h-[440px]' : 'h-[280px]'}`}>
-                  <Img src={imageSrc} alt={c.name} className="absolute inset-0" imgClassName={`transition-transform duration-[1600ms] ease-silk group-hover:scale-105 ${i === 4 ? 'object-[center_40%]' : ''}`} />
+                  <Img src={imageSrc} fallback={fallback} alt={c.name} className="absolute inset-0" imgClassName={`transition-transform duration-[1600ms] ease-silk group-hover:scale-105 ${i === 4 ? 'object-[center_40%]' : ''}`} />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/10 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-5 text-ivory sm:p-8">
                     <span className="text-[10px] uppercase tracking-luxe text-gold-soft">0{i + 1}</span>

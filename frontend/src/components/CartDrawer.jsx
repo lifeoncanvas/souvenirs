@@ -4,6 +4,7 @@ import { Minus, Plus, X } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { api } from '../lib/api';
 import { money, PERSONALISATION_LABELS } from '../lib/format';
+import { getProductFallback, resolveProductImage } from '../lib/images';
 import { Img, Ornament } from './ui';
 
 export function PersonalisationList({ data, className = '' }) {
@@ -87,7 +88,7 @@ export default function CartDrawer() {
               {items.map((item) => (
                 <li key={item.id} className={`flex gap-4 py-5 transition-opacity ${busy === item.id ? 'opacity-50' : ''}`}>
                   <Link to={`/product/${item.slug}`} onClick={() => setCartOpen(false)} className="shrink-0">
-                    <Img src={item.imageUrl} alt={item.name} className="h-28 w-22 w-[88px]" />
+                    <Img src={resolveProductImage(item.imageUrl, item.slug)} fallback={getProductFallback(item.slug)} alt={item.name} className="h-28 w-22 w-[88px]" />
                   </Link>
                   <div className="flex min-w-0 flex-1 flex-col">
                     <div className="flex justify-between gap-3">

@@ -34,19 +34,35 @@ export function Seo({ title, description, image, type = 'website', jsonLd, noind
   );
 }
 
-/** Lazy image with a soft fade-in and a warm placeholder tone. */
-export function Img({ src, alt = '', className = '', imgClassName = '', eager = false, sizes }) {
+/** Lazy image with a soft fade-in, warm placeholder tone, and frontend fallback. */
+export function Img({ src, alt = '', className = '', imgClassName = '', eager = false, sizes, fallback = '/images/products/default.svg' }) {
+  const [imgSrc, setImgSrc] = useState(src || fallback);
   const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setImgSrc(src || fallback);
+    setLoaded(false);
+  }, [src, fallback]);
+
+  const handleError = () => {
+    if (fallback && imgSrc !== fallback) {
+      setImgSrc(fallback);
+    } else if (imgSrc !== '/images/products/default.svg') {
+      setImgSrc('/images/products/default.svg');
+    }
+  };
+
   return (
     <div className={`relative overflow-hidden bg-champagne ${className}`}>
-      {src && (
+      {imgSrc && (
         <img
-          src={src}
+          src={imgSrc}
           alt={alt}
           sizes={sizes}
           loading={eager ? 'eager' : 'lazy'}
           decoding="async"
           onLoad={() => setLoaded(true)}
+          onError={handleError}
           className={`h-full w-full object-cover transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'} ${imgClassName}`}
         />
       )}

@@ -4,6 +4,7 @@ import { Eye, Heart, X } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { api } from '../lib/api';
 import { money } from '../lib/format';
+import { getProductFallback, resolveProductImage } from '../lib/images';
 import { Img, Spinner } from './ui';
 
 export default function ProductCard({ product, eager }) {
@@ -18,11 +19,14 @@ export default function ProductCard({ product, eager }) {
     try { await addToCart(product.id, 1); } catch (e) { notify(e.message, 'error'); } finally { setAdding(false); }
   };
 
+  const imgSrc = resolveProductImage(product.imageUrl, product.slug);
+  const fallback = getProductFallback(product.slug);
+
   return (
     <article className="group flex flex-col">
       <div className="relative">
         <Link to={`/product/${product.slug}`} className="block" aria-label={product.name}>
-          <Img src={product.imageUrl} alt={product.imageAlt} eager={eager} className="aspect-[4/5]"
+          <Img src={imgSrc} alt={product.imageAlt} fallback={fallback} eager={eager} className="aspect-[4/5]"
             imgClassName="transition-transform duration-[1400ms] ease-silk group-hover:scale-[1.04]" />
           {product.hoverImageUrl && (
             <img src={product.hoverImageUrl} alt="" loading="lazy" aria-hidden="true"
@@ -90,7 +94,7 @@ function QuickView({ slug, onClose }) {
         {error && <p className="col-span-2 p-10 text-center">{error}</p>}
         {p && (
           <>
-            <Img src={p.images[0]?.url} alt={p.images[0]?.altText || p.name} className="aspect-[4/5] sm:aspect-auto sm:h-full" />
+            <Img src={resolveProductImage(p.images[0]?.url, p.slug)} fallback={getProductFallback(p.slug)} alt={p.images[0]?.altText || p.name} className="aspect-[4/5] sm:aspect-auto sm:h-full" />
             <div className="flex flex-col gap-4 p-7 sm:p-10">
               <span className="eyebrow">{p.categories[0]?.name}</span>
               <h3 className="display-md">{p.name}</h3>

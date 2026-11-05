@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#211C18"/>
+      <stop offset="100%" stop-color="#14100E"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2E3C6"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#AA8232"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="45%">
+      <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <rect width="800" height="1000" fill="url(#glow)"/>
+
+  <!-- Luxury Borders -->
+  <rect x="36" y="36" width="728" height="928" fill="none" stroke="url(#gold)" stroke-width="1" opacity="0.35"/>
+  <rect x="44" y="44" width="712" height="912" fill="none" stroke="url(#gold)" stroke-width="0.5" opacity="0.2"/>
+
+  <!-- Decorative Corner Accents -->
+  <path d="M 54 64 L 64 64 L 64 54" fill="none" stroke="url(#gold)" stroke-width="1.5"/>
+  <path d="M 746 64 L 736 64 L 736 54" fill="none" stroke="url(#gold)" stroke-width="1.5"/>
+  <path d="M 54 936 L 64 936 L 64 946" fill="none" stroke="url(#gold)" stroke-width="1.5"/>
+  <path d="M 746 936 L 736 936 L 736 946" fill="none" stroke="url(#gold)" stroke-width="1.5"/>
+
+  <!-- Center Artwork / Illustration -->
+  <g filter="url(#shadow)" transform="translate(400, 460)">
+    
+      <!-- Candle Flame -->
+      <path d="M 0,-140 Q 20,-100 0,-70 Q -20,-100 0,-140" fill="url(#gold)"/>
+      <circle cx="0" cy="-90" r="8" fill="#FFF8E7"/>
+      <line x1="0" y1="-70" x2="0" y2="-50" stroke="#443322" stroke-width="3"/>
+      <!-- Glass Jar -->
+      <rect x="-80" y="-50" width="160" height="210" rx="10" fill="#8A4A1C" stroke="url(#gold)" stroke-width="2" opacity="0.95"/>
+      <rect x="-70" y="-45" width="20" height="200" fill="#FFFFFF" opacity="0.15"/>
+      <!-- Label -->
+      <rect x="-60" y="0" width="120" height="120" rx="4" fill="#FAF6ED" stroke="#D4AF37" stroke-width="1"/>
+      <text x="0" y="45" text-anchor="middle" font-family="serif" font-size="14" fill="#211C18" letter-spacing="2">NO. 07</text>
+      <text x="0" y="70" text-anchor="middle" font-family="serif" font-size="11" font-weight="bold" fill="#8C6D46" letter-spacing="1">AMBER &amp; CEDAR</text>
+      <text x="0" y="90" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#555" letter-spacing="2">SOY CANDLE</text>
+    
+  </g>
+
+  <!-- Title & Branding -->
+  <g transform="translate(400, 750)">
+    <text text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-size="28" font-weight="600" fill="url(#gold)" letter-spacing="3">PERSONALISED</text>
+    <text y="36" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-size="18" font-weight="400" fill="#F5F2EB" letter-spacing="4" opacity="0.85">AMBER SOY CANDLE</text>
+    <line x1="-60" y1="62" x2="60" y2="62" stroke="url(#gold)" stroke-width="1" opacity="0.6"/>
+    <text y="92" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#C5A880" letter-spacing="3" opacity="0.85">LICHT SIGNATURE SOUVENIRS</text>
+  </g>
+</svg>

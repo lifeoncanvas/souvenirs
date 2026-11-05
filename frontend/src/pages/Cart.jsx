@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { api } from '../lib/api';
 import { money } from '../lib/format';
+import { getProductFallback, resolveProductImage } from '../lib/images';
 import { PersonalisationList, QtyStepper } from '../components/CartDrawer';
 import { EmptyState, Img, PageLoader, Seo, Spinner } from '../components/ui';
 
@@ -73,7 +74,7 @@ export default function Cart() {
             <ul className="divide-y divide-espresso/10 border-y border-espresso/10">
               {cart.items.map((item) => (
                 <li key={item.id} className={`grid grid-cols-[96px_1fr] gap-5 py-6 sm:grid-cols-[120px_1fr_auto] ${busy === item.id ? 'opacity-50' : ''}`}>
-                  <Link to={`/product/${item.slug}`}><Img src={item.imageUrl} alt={item.name} className="aspect-[4/5]" /></Link>
+                  <Link to={`/product/${item.slug}`}><Img src={resolveProductImage(item.imageUrl, item.slug)} fallback={getProductFallback(item.slug)} alt={item.name} className="aspect-[4/5]" /></Link>
                   <div className="min-w-0">
                     <Link to={`/product/${item.slug}`} className="font-display text-xl">{item.name}</Link>
                     <p className="mt-1 text-sm text-espresso-muted tabular-nums">{money(item.unitPrice)} each</p>

@@ -4,6 +4,7 @@ import { Heart, Truck, Gift, Upload, ShieldCheck } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { api } from '../lib/api';
 import { money, date as fmtDate } from '../lib/format';
+import { getProductFallback, resolveProductImage } from '../lib/images';
 import ProductCard from '../components/ProductCard';
 import { QtyStepper } from '../components/CartDrawer';
 import { ErrorState, Field, Img, Notice, PageLoader, Seo, Spinner, Stars } from '../components/ui';
@@ -46,7 +47,7 @@ export default function Product() {
         </nav>
       </div>
       <section className="container-site grid gap-10 py-8 lg:grid-cols-[1.15fr_1fr] lg:gap-16 lg:py-12">
-        <Gallery images={p.images} name={p.name} />
+        <Gallery images={p.images} name={p.name} slug={p.slug} />
         <div className="lg:sticky lg:top-36 lg:self-start">
           <Purchase p={p} />
         </div>
@@ -69,21 +70,22 @@ export default function Product() {
   );
 }
 
-function Gallery({ images, name }) {
+function Gallery({ images, name, slug }) {
   const [active, setActive] = useState(0);
+  const fallback = getProductFallback(slug);
   const list = images.length ? images : [{ url: null, altText: name }];
   return (
     <div className="grid gap-3 sm:grid-cols-[72px_1fr]">
       <div className="order-2 flex gap-2 sm:order-1 sm:flex-col">
         {list.length > 1 && list.map((img, i) => (
-          <button key={img.url + i} onClick={() => setActive(i)} aria-label={`View image ${i + 1}`}
+          <button key={(img.url || slug) + i} onClick={() => setActive(i)} aria-label={`View image ${i + 1}`}
             className={`w-16 border transition sm:w-full ${i === active ? 'border-espresso' : 'border-transparent opacity-60 hover:opacity-100'}`}>
-            <Img src={img.url} alt="" className="aspect-[4/5]" />
+            <Img src={resolveProductImage(img.url, slug)} fallback={fallback} alt="" className="aspect-[4/5]" />
           </button>
         ))}
       </div>
       <div className="order-1 sm:order-2">
-        <Img key={active} src={list[active].url} alt={list[active].altText || name} eager className="aspect-[4/5] animate-fadeIn" />
+        <Img key={active} src={resolveProductImage(list[active].url, slug)} fallback={fallback} alt={list[active].altText || name} eager className="aspect-[4/5] animate-fadeIn" />
       </div>
     </div>
   );
