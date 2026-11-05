@@ -10,6 +10,7 @@ import com.licht.souvenirs.security.AuthUser;
 import com.licht.souvenirs.service.CatalogService;
 import com.licht.souvenirs.service.CatalogService.ProductQuery;
 import com.licht.souvenirs.service.Mapper;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
@@ -47,28 +48,35 @@ public class CatalogController {
                                              @RequestParam(required = false) Boolean personalisable,
                                              @RequestParam(defaultValue = "featured") String sort,
                                              @RequestParam(defaultValue = "0") int page,
-                                             @RequestParam(defaultValue = "12") int size) {
+                                             @RequestParam(defaultValue = "12") int size,
+                                             HttpServletResponse res) {
+        res.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=300");
         return catalog.search(new ProductQuery(q, category, minPrice, maxPrice, inStock, personalisable, sort, page,
                 size, false));
     }
 
     @GetMapping("/products/price-range")
-    public PriceRange priceRange() {
+    public PriceRange priceRange(HttpServletResponse res) {
+        res.setHeader("Cache-Control", "public, max-age=120, stale-while-revalidate=600");
         return catalog.priceRange();
     }
 
     @GetMapping("/products/{slug}")
-    public ProductDetail get(@PathVariable String slug) {
+    public ProductDetail get(@PathVariable String slug, HttpServletResponse res) {
+        res.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=300");
         return catalog.bySlug(slug, false);
     }
 
     @GetMapping("/products/{slug}/related")
-    public List<ProductSummary> related(@PathVariable String slug, @RequestParam(defaultValue = "4") int limit) {
+    public List<ProductSummary> related(@PathVariable String slug, @RequestParam(defaultValue = "4") int limit,
+                                        HttpServletResponse res) {
+        res.setHeader("Cache-Control", "public, max-age=120, stale-while-revalidate=600");
         return catalog.related(slug, Math.min(limit, 12));
     }
 
     @GetMapping("/categories")
-    public List<CategoryDto> categories() {
+    public List<CategoryDto> categories(HttpServletResponse res) {
+        res.setHeader("Cache-Control", "public, max-age=300, stale-while-revalidate=900");
         return catalog.categories();
     }
 

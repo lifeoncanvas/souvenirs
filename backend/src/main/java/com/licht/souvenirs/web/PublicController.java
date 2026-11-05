@@ -12,6 +12,7 @@ import com.licht.souvenirs.service.EmailService;
 import com.licht.souvenirs.service.Mapper;
 import com.licht.souvenirs.service.StorageService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -49,12 +50,14 @@ public class PublicController {
     }
 
     @GetMapping("/content")
-    public JsonNode allContent() {
+    public JsonNode allContent(HttpServletResponse res) {
+        res.setHeader("Cache-Control", "public, max-age=180, stale-while-revalidate=600");
         return content.all();
     }
 
     @GetMapping("/content/{key}")
-    public JsonNode content(@PathVariable String key) {
+    public JsonNode content(@PathVariable String key, HttpServletResponse res) {
+        res.setHeader("Cache-Control", "public, max-age=180, stale-while-revalidate=600");
         return content.get(key);
     }
 
