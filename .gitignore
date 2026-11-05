@@ -1,19 +1,15 @@
 # dependencies & builds
 node_modules/
-frontend/dist/
-backend/target/
+dist/
 
-# local runtime data (dev H2 database, uploaded images, logs)
-backend/data/
-backend/uploads/
+# logs
 *.log
 
 # environment
 .env
 .env.*
-!.env.example
 
 # misc
 .DS_Store
-.idea/
 .vscode/
+.idea/
